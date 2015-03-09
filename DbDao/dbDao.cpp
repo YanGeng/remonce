@@ -1,6 +1,6 @@
 #include <stdarg.h>
 #include <cppconn/prepared_statement.h>
-#include "DbDao.h"
+#include "dbDao.h"
 #include "macro.h"
 #include "cFunc.h"
 

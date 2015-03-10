@@ -6,7 +6,7 @@
 class DbService : public Service {
 	public:
 		void run();
-		~DbService();
+		~DbService() {};
 };
 
 #endif // __DBSERVICE_H

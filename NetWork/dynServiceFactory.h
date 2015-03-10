@@ -8,7 +8,7 @@ typedef void *(CREATE_SERVICE)();
 
 class DynServiceFactory {
 	public:
-		static void *creatService(const std::string &name);
+		static void *createService(const std::string &name);
 		static void registerService(const std::string &name, CREATE_SERVICE func);
 
 	private:
@@ -32,3 +32,5 @@ private: \
 	static Register reg_; \
 }; \
 Register className##Register::reg_(#className, className##Register::newInstance)
+
+#endif // __DYNSERVICEFACTORY_H

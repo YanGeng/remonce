@@ -12,13 +12,13 @@ class DynServiceFactory {
 		static void registerService(const std::string &name, CREATE_SERVICE func);
 
 	private:
-		static std::map<string, CREATE_SERVICE> mapCls_;
+		static std::map<std::string, CREATE_SERVICE> mapCls_;
 };
 
 
 class Register {
 	public:
-		Register(const std::string &name, CREATE_FUNC func);
+		Register(const std::string &name, CREATE_SERVICE func);
 };
 
 

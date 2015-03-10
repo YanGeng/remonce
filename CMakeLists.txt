@@ -6,12 +6,12 @@ set (Main_VERSION_MAJOR 1)
 set (Main_VERSION_MINOR 0)
 
 # add the build option
-add_definitions("-g")
+add_definitions(-g -lstdc++)
 
 include_directories("${PROJECT_SOURCE_DIR}/Header")
 
 set(DIRS
-	DbDao
+#	DbDao
 	NetWork
 	Test
 )

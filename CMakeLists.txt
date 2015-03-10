@@ -11,8 +11,9 @@ add_definitions("-g")
 include_directories("${PROJECT_SOURCE_DIR}/Header")
 
 set(DIRS
-	Test
 	DbDao
+	NetWork
+	Test
 )
 
 # add all the dirs to the include_directories

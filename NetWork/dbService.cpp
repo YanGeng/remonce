@@ -1,9 +1,10 @@
 #include "dbService.h"
 #include "iostream"
+#include "dynServiceFactory.h"
 
-void dbService::run() {
+void DbService::run() {
 	std::cout << "run the dbService\n";
 }
 
 // Register the class, this is very important
-REGISTER_CLASS(dbService);
+REGISTER_CLASS(DbService);

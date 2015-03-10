@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 
-typedef void *(CREATE_SERVICE)();
+typedef void *(*CREATE_SERVICE)();
 
 class DynServiceFactory {
 	public:

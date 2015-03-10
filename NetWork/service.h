@@ -4,6 +4,7 @@
 class Service {
 public:
 	virtual void run() = 0;
+	virtual ~Service() {};
 };
 
 #endif	// __SERVICE_H

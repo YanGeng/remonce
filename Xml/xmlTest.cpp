@@ -22,15 +22,20 @@ void parseDoc(char *filename) {
 
 	//获取根结点  
 	cur = xmlDocGetRootElement(doc);  
-	//输出根结点信息  
-	printf("root node=%s\n", cur->name);  
-
 	if (cur == NULL) {  
 		fprintf(stderr,"empty document\n");  
 		xmlFreeDoc(doc);  
 		return;  
 	}  
-
+	//输出根结点信息  
+	printf("root node=%s\n", cur->name);  
+/*
+	if (cur == NULL) {  
+		fprintf(stderr,"empty document\n");  
+		xmlFreeDoc(doc);  
+		return;  
+	}  
+*/
 	//打印子结点信息  
 	printChildrenNames(doc, cur);  
 
@@ -73,10 +78,12 @@ void printChildrenNames(xmlDocPtr doc, xmlNodePtr cur) {
 }  
 
 int main(int argc, char **argv) {  
+	/*
 	if (argc != 2) {  
 		printf("Parameter too litter!\n");  
 		return(1);  
-	}  
+	} 
+	*/
 
 	/* 
 	 * this initialize the library and check potential ABI mismatches 
@@ -85,7 +92,8 @@ int main(int argc, char **argv) {
 	 */  
 	LIBXML_TEST_VERSION  
 
-		parseDoc(argv[1]);  
+	parseDoc("./test.xml");  
+	//parseDoc(argv[1]);  
 
 	/* 
 	 * Cleanup function for the XML library 

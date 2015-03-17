@@ -6,6 +6,7 @@
 
 typedef void *(*CREATE_SERVICE)();
 
+// Service factory: use to create the exact service for each http request
 class DynServiceFactory {
 	public:
 		static void *createService(const std::string &name);
@@ -15,7 +16,8 @@ class DynServiceFactory {
 		static std::map<std::string, CREATE_SERVICE> mapCls_;
 };
 
-
+// Reverse registration for each service, and the destination of the registration is
+// DynServiceFactory
 class Register {
 	public:
 		Register(const std::string &name, CREATE_SERVICE func);

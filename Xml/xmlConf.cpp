@@ -70,7 +70,8 @@ bool XmlConf::readXmlConf(const char *fileName) {
 		return false;
 	}  
 	// get the value of the root node 
-	std::string rootValue = reinterpret_cast<const char*>(cur->name);
+	std::string rootValue = (char*)(cur->name);
+	//std::string rootValue = reinterpret_cast<const char*>(cur->name);
 	if (rootValue.compare("web-app") != 0) {
 		std::cout << "The xml file is not web conf-file or there are errors in the conf-file\n";
 		return false;
@@ -118,7 +119,7 @@ bool XmlConf::readChildrenNode(xmlDocPtr doc, xmlNodePtr cur) {
 			// if it's element node, get its value
 			if(cur->type == XML_ELEMENT_NODE){  
 				// printf("Current Node: %s\t\t", cur->name);  
-				std::string curNode = reinterpret_cast<const char*>(cur->name);
+				std::string curNode = (char*)(cur->name);
 				if (xmlDepth == 1 && curNode.compare("servlet") == 0) {
 					std::cout << "Find the servlet node\n";
 				} else if (xmlDepth == 2) {
@@ -127,9 +128,9 @@ bool XmlConf::readChildrenNode(xmlDocPtr doc, xmlNodePtr cur) {
 					if(key != NULL) { 
 						//printf("content: %s\t\t", key);
 						if (curNode.compare("servlet-name") == 0) {
-							mapValue = std::string(reinterpret_cast<const char*>(key));
+							mapValue = std::string((char*)(key));
 						} else if (curNode.compare("url-pattern") == 0) {
-							mapKey = std::string(reinterpret_cast<const char*>(key));
+							mapKey = std::string((char*)(key));
 						}
 						xmlFree(key);  
 					}

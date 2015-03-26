@@ -21,7 +21,12 @@ DbDao::DbDao(std::string url, std::string username, std::string pass) : url(url)
 
 DbDao::~DbDao() {
 	if (conn.get() != NULL && !conn->isClosed()) {
-		conn->close();
+		try {
+			conn->close();
+		} catch (sql::SQLException &e) {
+			// Never throw exception in the destructors func
+			std::abort();
+		}
 	}
 	conn.reset();
 }

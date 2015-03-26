@@ -13,6 +13,7 @@ include_directories("${PROJECT_SOURCE_DIR}/Header")
 set(DIRS
 #	DbDao
 	NetWork
+	Xml
 	Test
 )
 

@@ -1,8 +1,11 @@
-project(test) 
-add_definitions(-lstdc++)
+#project(test) 
+#add_definitions(-lstdc++)
 
-include_directories("/Users/tony/SandBox/remonce/Header")
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/binTest)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+
+#include_directories("/Users/tony/SandBox/remonce/Header")
 
 set(SRC_LIST xmlConf.cpp xmlConfTest.cpp)
-add_executable(test ${SRC_LIST})
-target_link_libraries(xml2)
+add_executable(xmlTest ${SRC_LIST})
+target_link_libraries(xmlTest xml2)

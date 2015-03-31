@@ -1,7 +1,7 @@
 #ifndef __CFUNC_H
 #define __CFUNC_H
 
-#include <assert.h>
+#include <cassert>
 #include <stdarg.h>
 #include <memory.h>
 #include <sstream>

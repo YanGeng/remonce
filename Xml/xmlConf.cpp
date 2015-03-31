@@ -1,5 +1,5 @@
 #include "xmlConf.h"
-#include <assert.h>
+#include <cassert>
 #include "macro.h"
 #include <iostream>
 
@@ -7,6 +7,7 @@
 XmlConf::XmlConf() : xmlDepth(0)
 	,xmlDepthLimit(2) {
 }
+
 
 XmlConf::XmlConf(int depth, int depthLimit) : xmlDepth(depth)
 	,xmlDepthLimit(depthLimit) {
@@ -121,7 +122,7 @@ bool XmlConf::readChildrenNode(xmlDocPtr doc, xmlNodePtr cur) {
 				// printf("Current Node: %s\t\t", cur->name);  
 				std::string curNode = (char*)(cur->name);
 				if (xmlDepth == 1 && curNode.compare("servlet") == 0) {
-					std::cout << "Find the servlet node\n";
+					//std::cout << "Find the servlet node\n";
 				} else if (xmlDepth == 2) {
 					// get the content of the node
 					key = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);  
@@ -134,7 +135,7 @@ bool XmlConf::readChildrenNode(xmlDocPtr doc, xmlNodePtr cur) {
 						}
 						xmlFree(key);  
 					}
-					// 获取结点属性，data为属性名  
+					// get the properties of the node，data is the name of the property  
 					attr_value = xmlGetProp(cur, (const xmlChar *)"data");  
 					if(attr_value != NULL)  
 						std::cout << "data: " << attr_value << std::endl;  

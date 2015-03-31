@@ -7,6 +7,7 @@
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
+#include <boost/shared_ptr.hpp>
 
 class DbDao
 {
@@ -25,7 +26,7 @@ class DbDao
 
 		void closeConn();
 		void getConnection();
-		std::auto_ptr< sql::ResultSet > query(const char *sql, ...);
+		boost::shared_ptr< sql::ResultSet > query(const char *sql, ...);
 		bool insert(const char *sql, ...);
 		int update(const char *sql, ...);
 		bool executeSql(const char *sql);
@@ -36,7 +37,7 @@ class DbDao
 		void printSqlErr(sql::SQLException &e) const;
 
 	private:
-		std::auto_ptr<sql::Connection> conn;
+		boost::shared_ptr< sql::Connection > conn;
 		std::string url;
 		std::string username;
 		std::string pass;

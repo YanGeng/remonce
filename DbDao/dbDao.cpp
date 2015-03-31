@@ -5,7 +5,7 @@
 #include "cFunc.h"
 
 
-DbDao::DbDao() : conn(NULL) {
+DbDao::DbDao() {
 	url = std::string("");
 	username = std::string("");
 	pass = std::string("");
@@ -14,8 +14,7 @@ DbDao::DbDao() : conn(NULL) {
 
 DbDao::DbDao(std::string url, std::string username, std::string pass) : url(url)
 	,username(username)
-	,pass(pass) 
-	,conn(NULL) {
+	,pass(pass) {
 }
 
 
@@ -138,7 +137,7 @@ void DbDao::reset(std::string url, std::string username, std::string pass) {
 /***************************************************
  *	return the result of query sql
  * ************************************************/
-std::auto_ptr< sql::ResultSet > DbDao::query(const char* sql, ...) {
+boost::shared_ptr< sql::ResultSet > DbDao::query(const char* sql, ...) {
 	assert(sql);
 
 #ifdef _DEBUG 
@@ -150,13 +149,13 @@ std::auto_ptr< sql::ResultSet > DbDao::query(const char* sql, ...) {
 
 	// Call va_list2String to change the va_list to string. Support %d, %u, %i, %s and %f
 	std::string qurSql = cfunc::va_list2String(sql, args);
-	std::auto_ptr< sql::ResultSet > res;
+	boost::shared_ptr< sql::ResultSet > res;
 
 	try {
 		getConnection();
 
 		std::auto_ptr< sql::PreparedStatement > prep_select(conn->prepareStatement(qurSql.c_str()));
-		res = std::auto_ptr< sql::ResultSet >(prep_select->executeQuery());
+		res = boost::shared_ptr< sql::ResultSet >(prep_select->executeQuery());
 
 	} catch (sql::SQLException &e) {
 		printSqlErr(e);

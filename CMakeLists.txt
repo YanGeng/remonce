@@ -14,6 +14,7 @@ set(DIRS
 #	DbDao
 	NetWork
 	Xml
+	Json
 	Test
 )
 

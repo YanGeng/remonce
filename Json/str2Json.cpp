@@ -1,6 +1,7 @@
 #include <fstream>
 #include <cassert>
 #include "json/json.h"
+#include <string>
 
 
 int main()
@@ -9,6 +10,7 @@ int main()
 	Json::FastWriter writer;
 	Json::Value person;
 
+	char test[10] = "abc";
 	person["name"] = "hello world";
 	person["age"] = 100;
 	root.append(person);

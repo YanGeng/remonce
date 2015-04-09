@@ -28,7 +28,7 @@ HttpServer::HttpServer(int nThreads, int port, int backlog) : nThreads(nThreads)
  * parameters: 
  * description: 
  * *****************************************************************************/
-void* httpServerDispatch(void *arg) {
+void* HttpServer::httpServerDispatch(void *arg) {
 	event_base_dispatch((struct event_base*)arg);
 	return NULL;
 }

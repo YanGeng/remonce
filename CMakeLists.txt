@@ -14,7 +14,7 @@ set(DIRS
 #	DbDao
 	NetWork
 	Xml
-	Json
+#	Json
 	Test
 )
 
@@ -31,3 +31,10 @@ endforeach()
 foreach(dir ${DIRS})
 	add_subdirectory(${dir})
 endforeach()
+
+
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+set(SRC_LIST main.cpp)
+add_executable(tony ${SRC_LIST})
+target_link_libraries(tony netWork event)

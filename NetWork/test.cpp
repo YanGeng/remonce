@@ -1,4 +1,4 @@
-#include "httpServer.h"
+#include "httpServer.h"                                                                                                                                     
 #include <sys/socket.h>
 #include <pthread.h>
 #include <err.h>
@@ -10,13 +10,32 @@
 #include <iostream>
 #include <evhttp.h>
 
-HttpServer::HttpServer() : nThreads(4)
-	,port(11150)
-	,backlog(10240) {
+
+
+class MyHttpServer {
+	public:
+		MyHttpServer();
+		MyHttpServer(int nThreads, int port, int backlog);
+
+		int httpBindSocket(int port, int backlog) const;
+		static void genericHandle(struct evhttp_request *req, void *arg);
+		int httpServerStart() const;
+		static void* httpServerDispatch(void *arg);
+
+	private:
+		int nThreads;
+		int port;
+		int backlog;
+};
+
+
+MyHttpServer::MyHttpServer() : nThreads(4)
+    ,port(11150)
+    ,backlog(10240) {
 }
 
 
-HttpServer::HttpServer(int nThreads, int port, int backlog) : nThreads(nThreads)
+MyHttpServer::MyHttpServer(int nThreads, int port, int backlog) : nThreads(nThreads)
 	,port(port)
 	,backlog(backlog) {
 }
@@ -28,7 +47,7 @@ HttpServer::HttpServer(int nThreads, int port, int backlog) : nThreads(nThreads)
  * parameters: 
  * description: 
  * *****************************************************************************/
-int HttpServer::httpBindSocket(int port, int backlog) const {
+int MyHttpServer::httpBindSocket(int port, int backlog) const {
 	int r;
 	int nfd;
 	nfd = socket(AF_INET, SOCK_STREAM, 0); 
@@ -61,7 +80,7 @@ int HttpServer::httpBindSocket(int port, int backlog) const {
  * parameters: 
  * description: 
  * *****************************************************************************/
-void HttpServer::genericHandle(struct evhttp_request *req, void *arg) {
+void MyHttpServer::genericHandle(struct evhttp_request *req, void *arg) {
 	std::cout << "thread 2\n";
 	struct evbuffer *buf;
 
@@ -79,34 +98,34 @@ void HttpServer::genericHandle(struct evhttp_request *req, void *arg) {
  * parameters: 
  * description: 
  * *****************************************************************************/
- int HttpServer::httpServerStart() const {
-	 int r, i;
-	 int nfd = httpBindSocket(port, backlog);
-	 if (nfd < 0)  
-		 return -1; 
-	 pthread_t ths[500]; // max: 500 threads
-	 for (i = 0; i < nThreads; i++) {
-		 struct event_base *base = event_base_new();
-		 if (base == NULL) 
-			 return -1; 
-		 struct evhttp *httpd = evhttp_new(base);
-		 if (httpd == NULL) 
-			 return -1; 
-		 r = evhttp_accept_socket(httpd, nfd);
-		 if (r != 0)  
-			 return -1; 
+int MyHttpServer::httpServerStart() const {
+	int r, i;
+	int nfd = httpBindSocket(port, backlog);
+	if (nfd < 0)  
+		return -1; 
+	pthread_t ths[500]; // max: 500 threads
+	for (i = 0; i < nThreads; i++) {
+		struct event_base *base = event_base_new();
+		if (base == NULL) 
+			return -1; 
+		struct evhttp *httpd = evhttp_new(base);
+		if (httpd == NULL) 
+			return -1; 
+		r = evhttp_accept_socket(httpd, nfd);
+		if (r != 0)  
+			return -1; 
 
-		 evhttp_set_gencb(httpd, genericHandle, NULL);
-		 r = pthread_create(&ths[i], NULL, httpServerDispatch, base);
-		 if (r != 0)  
-			 return -1; 
-	 }   
+		evhttp_set_gencb(httpd, genericHandle, NULL);
+		r = pthread_create(&ths[i], NULL, httpServerDispatch, base);
+		if (r != 0)  
+			return -1; 
+	}   
 
-	 for (i = 0; i < nThreads; i++) {
-		 pthread_join(ths[i], NULL);
-	 }   
+	for (i = 0; i < nThreads; i++) {
+		pthread_join(ths[i], NULL);
+	}   
 
-	 return 0;
+	return 0;
 }
 
 
@@ -119,4 +138,11 @@ void HttpServer::genericHandle(struct evhttp_request *req, void *arg) {
 void* httpServerDispatch(void *arg) {
 	event_base_dispatch((struct event_base*)arg);
 	return NULL;
+}       
+
+
+int main() {
+	MyHttpServer *hp = new MyHttpServer();
+	hp->httpServerStart();
+	return 0;
 }

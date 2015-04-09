@@ -10,7 +10,7 @@ class HttpServer {
 
 		int httpBindSocket(int port, int backlog) const;
 		static void genericHandle(struct evhttp_request *req, void *arg);
-		int httpServerStart() const;
+		int httpServerStart();
 		static void* httpServerDispatch(void *arg);
 
 	private:

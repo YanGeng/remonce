@@ -28,6 +28,18 @@ HttpServer::HttpServer(int nThreads, int port, int backlog) : nThreads(nThreads)
  * parameters: 
  * description: 
  * *****************************************************************************/
+void* httpServerDispatch(void *arg) {
+	event_base_dispatch((struct event_base*)arg);
+	return NULL;
+}
+
+
+/********************************************************************************
+ * func_name: 
+ * return: 
+ * parameters: 
+ * description: 
+ * *****************************************************************************/
 int HttpServer::httpBindSocket(int port, int backlog) const {
 	int r;
 	int nfd;
@@ -79,7 +91,7 @@ void HttpServer::genericHandle(struct evhttp_request *req, void *arg) {
  * parameters: 
  * description: 
  * *****************************************************************************/
- int HttpServer::httpServerStart() const {
+ int HttpServer::httpServerStart() {
 	 int r, i;
 	 int nfd = httpBindSocket(port, backlog);
 	 if (nfd < 0)  
@@ -107,16 +119,4 @@ void HttpServer::genericHandle(struct evhttp_request *req, void *arg) {
 	 }   
 
 	 return 0;
-}
-
-
-/********************************************************************************
- * func_name: 
- * return: 
- * parameters: 
- * description: 
- * *****************************************************************************/
-void* httpServerDispatch(void *arg) {
-	event_base_dispatch((struct event_base*)arg);
-	return NULL;
 }
